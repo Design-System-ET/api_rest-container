@@ -63,6 +63,7 @@ Configura las siguientes propiedades en el archivo:
 - **USER**: usuario para la conexion a la BD
 - **PASSWORD**: Seña de la conexion a la BD
 - Tambien puedes indicar el **port** y el **context-path** para indicar el puerto y el endpoint de inicio de ejecucion.
+- se definieron variables globales para poder pasar los valores desde la creacion del contenedor con docker-compose, esto permite conectarse a diferentes BD (test, produccion, etc)
 
 ```yml
 
@@ -75,9 +76,9 @@ spring:
     open-in-view: false
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/NOMBRE-BD?zeroDateTimeBehavior=convertToNull&serverTimezone=UTC
-    username: USUARIO
-    password: PASSWORDD
+    url: ${BASE_DATOS}
+    username: ${USER}
+    password: ${PASS}
 
 server:
   port: 8080                         #AQUI EL PUERTO DONDE QUIERES QUE SE EJECUTE EL TOMCAT INTERNO
