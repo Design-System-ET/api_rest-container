@@ -1,0 +1,31 @@
+#version: '1'
+
+services:
+  api-rest:                                        #nombre del application name que indique en el pom
+    build: api-rest                                #desde donde esta el docker-compose la carpeta que contiene el proyecto con el Dockerfile 
+    mem_limit: 512m
+    ports:
+      - "8080:8080"                                #aqui indico el puerto de entrada mapeado al puerto que se ejecuta la aplicacion indicado en el server port en el pom
+    environment:                                   #aqui defino las variables de la BD el usuario y la password que cree en netbeans para indicar a donde se conecta el contenedor
+      BASE_DATOS: jdbc:mysql://api-rest_BD:3306/spring_bd?createDatabaseIfNotExist=true&serverTimezone=UTC
+      USER: root
+      PASS: iara159357
+    restart: always                                 #que siempre se reinicio en caso de necesitar
+    depends_on:
+      api-rest_BD:                                  #depende de la siguiente configuracion de BD
+        condition: service_healthy                  #y que tenga un servicio saludable
+  
+  api-rest_BD:
+    image: mysql:9.1.0                              #incluyo la misma version del conector que uso en el proyecto indicada en el pom
+    ports:
+      - "3307:3307"
+    environment:
+      MYSQL_ROOT_PASSWORD: iara159357
+      MYSQL_PASSWORD: iara159357
+      MYSQL_DATABASE: spring_bd                     #la BASE_DATOS que se va a crear si no exite y a la que se va a acceder
+      
+    restart: always
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      timeout: 10s
+      retries: 10

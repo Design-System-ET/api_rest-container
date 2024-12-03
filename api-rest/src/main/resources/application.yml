@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: api-rest
+  jpa:
+    hibernate:
+      ddl-auto: update
+    open-in-view: false
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${BASE_DATOS}
+    username: ${USER}
+    password: ${PASS}
+
+server:
+  port: 8080                         #AQUI EL PUERTO DONDE QUIERES QUE SE EJECUTE EL TOMCAT INTERNO
+  servlet:
+    context-path: /servicios         #AQUI EL PATH DONDE INIZIALIZAS LOS CONTROLLERS EJ: localhost:8080/servicios/
